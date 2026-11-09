@@ -2,19 +2,15 @@ import { ArrowRight, ArrowUpRight, Lock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useNavigate } from '../navigation/RouterContext'
 import { PATHS } from '../navigation/paths'
+import { HeroSection } from '../components/HeroSection'
 
 export function LandingPage() {
   const navigate = useNavigate()
 
   return (
-    <div className="my-auto flex flex-col items-start py-16">
-      <h1 className="font-serif text-3xl font-normal tracking-tight text-foreground">
-        Landing Page
-      </h1>
-      <p className="mt-2 text-sm text-muted-foreground">
-        Select a destination below to navigate to the blog details or the admin dashboard.
-      </p>
-
+    <div className="w-full bg-background text-foreground">
+      <HeroSection />
+      
       <div className="mt-6 flex flex-wrap items-center gap-3">
         <Button
           type="button"
