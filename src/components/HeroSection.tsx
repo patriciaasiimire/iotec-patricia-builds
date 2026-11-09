@@ -2,7 +2,7 @@
 // 2. These work like custom HTML tags to draw icons instantly.
 // 1. We import visual vector icons by name from our global workspace package.
 // 2. These work like custom HTML tags to draw icons instantly.
-import { Mail, Phone, MessageSquare } from 'lucide-react'
+import { Mail, Phone } from 'lucide-react'
 
 export function HeroSection() {
     return (
