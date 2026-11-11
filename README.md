@@ -1,6 +1,6 @@
-# The Tech Report (`iotec-code-camp-blog`)
+# The MOTOFIX Report Report (`iotec-code-camp-blog`)
 
-**The Tech Report** is a full-stack editorial publication and content management platform built with React, TypeScript, Vite, Convex, Tailwind CSS v4, and shadcn/ui. It provides both a public reader experience (Landing Page & Blog Details) and an Admin Dashboard (Blogs, Transactions, and Users management).
+**The MOTOFIX Report Report** is a full-stack editorial publication and content management platform built with React, TypeScript, Vite, Convex, Tailwind CSS v4, and shadcn/ui. It provides both a public reader experience (Landing Page & Blog Details) and an Admin Dashboard (Blogs, Transactions, and Users management).
 
 ---
 

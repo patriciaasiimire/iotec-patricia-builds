@@ -19,7 +19,7 @@ export function Footer() {
             </span>
             <div>
               <p className="font-serif text-base leading-tight font-medium tracking-tight text-foreground">
-                The Tech Report
+                The MOTOFIX Report Report
                 <sup className="ml-0.5 font-sans text-[8px] font-normal tracking-normal text-muted-foreground">
                   TM
                 </sup>
@@ -44,7 +44,7 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col gap-2 border-t border-border py-4 text-[11px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>&copy; 2026 The Tech Report. All rights reserved.</p>
+          <p>&copy; 2026 The MOTOFIX Report Report. All rights reserved.</p>
           <p>Kampala &middot; Uganda</p>
         </div>
       </div>

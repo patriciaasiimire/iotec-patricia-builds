@@ -13,11 +13,11 @@ export function Header() {
             aria-hidden="true"
             className="flex size-8 shrink-0 items-center justify-center rounded bg-primary font-serif text-xs font-semibold tracking-wider text-primary-foreground transition-opacity group-hover:opacity-90"
           >
-            TR
+            MR
           </span>
           <span className="flex flex-col">
             <span className="font-serif text-[15px] leading-tight font-medium tracking-tight text-foreground">
-              The Tech Report
+              The MOTOFIX Report
               <sup className="ml-0.5 font-sans text-[8px] font-normal tracking-normal text-muted-foreground">
                 TM
               </sup>

@@ -22,37 +22,37 @@ export interface RouteConfig {
 export const ROUTES: readonly RouteConfig[] = [
   {
     path: PATHS.LANDING,
-    title: 'The Tech Report — Notes on Technology, Architecture & Culture',
+    title: 'The MOTOFIX Report Report — Notes on Technology, Architecture & Culture',
     layout: 'public',
     component: LandingPage,
   },
   {
     path: PATHS.BLOG_DETAILS,
-    title: 'Blog Details | The Tech Report',
+    title: 'Blog Details | The MOTOFIX Report Report',
     layout: 'public',
     component: BlogDetailsPage,
   },
   {
     path: PATHS.ADMIN,
-    title: 'Articles & Essays | Admin Dashboard — The Tech Report',
+    title: 'Articles & Essays | Admin Dashboard — The MOTOFIX Report Report',
     layout: 'admin',
     redirectTo: PATHS.ADMIN_BLOGS,
   },
   {
     path: PATHS.ADMIN_BLOGS,
-    title: 'Articles & Essays | Admin Dashboard — The Tech Report',
+    title: 'Articles & Essays | Admin Dashboard — The MOTOFIX Report Report',
     layout: 'admin',
     component: AdminBlogsPage,
   },
   {
     path: PATHS.ADMIN_TRANSACTIONS,
-    title: 'Transactions | Admin Dashboard — The Tech Report',
+    title: 'Transactions | Admin Dashboard — The MOTOFIX Report Report',
     layout: 'admin',
     component: AdminTransactionsPage,
   },
   {
     path: PATHS.ADMIN_USERS,
-    title: 'Users | Admin Dashboard — The Tech Report',
+    title: 'Users | Admin Dashboard — The MOTOFIX Report Report',
     layout: 'admin',
     component: AdminUsersPage,
   },

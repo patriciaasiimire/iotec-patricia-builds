@@ -13,7 +13,7 @@ export function AdminFooter() {
           </span>
           <div>
             <p className="font-serif text-[15px] leading-tight font-semibold tracking-tight text-foreground">
-              The Tech Report
+              The MOTOFIX Report Report
               <sup className="ml-0.5 font-sans text-[8px] font-normal tracking-normal text-muted-foreground">
                 TM
               </sup>
@@ -33,7 +33,7 @@ export function AdminFooter() {
         </div>
 
         <p className="max-w-50 text-[11px] leading-snug text-muted-foreground">
-          &copy; 2026 The Tech Report. All rights reserved.
+          &copy; 2026 The MOTOFIX Report Report. All rights reserved.
         </p>
       </div>
     </footer>

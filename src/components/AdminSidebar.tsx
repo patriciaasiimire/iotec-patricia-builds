@@ -15,7 +15,7 @@ export function AdminSidebar() {
             className="block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sidebar-ring"
           >
             <span className="block font-serif text-[17px] leading-snug font-medium tracking-tight text-sidebar-foreground">
-              The Tech Report
+              The MOTOFIX Report Report
             </span>
             <span className="mt-0.5 block text-[10px] font-medium tracking-[0.14em] text-muted-foreground uppercase">
               Admin Dashboard

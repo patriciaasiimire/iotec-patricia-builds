@@ -7,7 +7,7 @@ export function AdminHeader() {
       <div className="flex items-center justify-between px-8 py-3.5">
         <Link
           to={PATHS.LANDING}
-          aria-label="The Tech Report Home"
+          aria-label="The MOTOFIX Report Report Home"
           className="inline-flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
         >
           <span
