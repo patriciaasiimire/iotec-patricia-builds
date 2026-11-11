@@ -28,16 +28,7 @@ const blogs = [
         price: "Paid . UGX 10,000",
         title: "Quiet Computing & The Architecture of Cognitive Silence",
         description: "An inquiry into computational environments that honor human attention spans, examining spatial interfaces and...",
-    },
-    {
-        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
-        category: "Architecture",
-        date: "Oct 24, 2024",
-        readTime: "8 min read",
-        price: "Paid . UGX 10,000",
-        title: "Quiet Computing & The Architecture of Cognitive Silence",
-        description: "An inquiry into computational environments that honor human attention spans, examining spatial interfaces and...",
-    },
+    }
     
 ];
 
