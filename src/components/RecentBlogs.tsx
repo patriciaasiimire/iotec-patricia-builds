@@ -1,4 +1,7 @@
+// RecentBlogs.tsx
+import { useState } from "react";
 import BlogCard from "./BlogCard";
+import { BlogDetailsPage } from "@/pages/BlogDetailsPage";
 
 const blogs = [
     {

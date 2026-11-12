@@ -3,7 +3,7 @@ import { LinkedinIcon } from "./icons/LinkedinIcon";
 
 export function HeroSection() {
     return (
-        <section className="max-w-5xl mx-auto px-6 py-16 md:py-20">
+        <section className="px-10 py-16 md:py-20">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
                 {/* left side - photo */}
                 <div>
@@ -78,7 +78,7 @@ export function HeroSection() {
                             </a>
                             <a href="#" className="flex items-center gap-2.5 hover:text-[#1c1917] transition-colors" >
                                 <X aria-hidden="true" className="size-3.5" />
-                                <span>X @motofixug</span>
+                                <span>@motofixug</span>
                             </a>
                         </div>
                     </div>

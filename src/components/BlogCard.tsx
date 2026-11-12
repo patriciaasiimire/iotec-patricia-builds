@@ -1,4 +1,6 @@
+// BlogCard.tsx
 type BlogCardProps = {
+    id: number;
     image: string;
     category: string;
     date: string;
@@ -7,9 +9,12 @@ type BlogCardProps = {
     isFree?: boolean;
     title: string;
     description: string;
+    content: string;
+    onRead: () => void;
 };
 
 function BlogCard({
+    id,
     image,
     category,
     date,
@@ -18,6 +23,8 @@ function BlogCard({
     isFree = false,
     title,
     description,
+    content,
+    
 }: BlogCardProps) {
     return (
         <article className="bg-white rounded-xl overflow-hidden border border-[#e8e6e0] hover:shadow-md transition-shadow ">
