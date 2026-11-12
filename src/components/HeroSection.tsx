@@ -3,7 +3,7 @@ import { LinkedinIcon } from "./icons/LinkedinIcon";
 
 export function HeroSection() {
     return (
-        <section className="px-10 py-16 md:py-20">
+        <section className="py-16 md:py-20">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
                 {/* left side - photo */}
                 <div>

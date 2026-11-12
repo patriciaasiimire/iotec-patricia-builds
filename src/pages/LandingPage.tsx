@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { useNavigate } from '../navigation/RouterContext'
 import { PATHS } from '../navigation/paths'
 import { HeroSection } from '../components/HeroSection'
+import RecentBlogs from '@/components/RecentBlogs'
 
 export function LandingPage() {
   const navigate = useNavigate()
@@ -10,7 +11,7 @@ export function LandingPage() {
   return (
     <div className="w-full bg-background text-foreground">
       <HeroSection />
-      
+      <RecentBlogs />
       <div className="mt-6 flex flex-wrap items-center gap-3">
         <Button
           type="button"
