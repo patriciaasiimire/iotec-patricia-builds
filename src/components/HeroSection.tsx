@@ -10,43 +10,45 @@ export function HeroSection() {
                         <p className="text-sm text-muted-foreground mt-0.5">Founder of The MOTOFIX Report</p>
                     </div>
                 </div>
-            </div>
 
-            {/* Right side - Content */}
-            <div className="pt-1">
-                <p className="text-[11px] font-medium tracking-[0.15em] text-muted-foreground uppercase mb-5">
-                    Authorial Focus
-                </p>
 
-                <h2 className="text-3xl md:text-4xl font-serif font-medium leading-snug mb-6">
-                    Writing at the intersection of quiet computing, spatial architecture, and enduring software.
-                </h2>
-
-                <p className="text-[#44403c] leading-relaxed mb-6">
-                    Over the last fifteen years, I have drafted distributed fault-tolerant topologies by day and examined the subtle erosion of cognitive silence by night. The MOTOFIX Report Report is an archival venue for unhurried prose—deliberate investigations into digital ergonomics, high-leverage simplicity, and technologies built to outlast market frenzy.
-                </p>
-
-                <p className="text-[#44403c] leading-relaxed mb-8">
-                    Every piece published here undergoes iterative revisions, typographic tuning, and empirical review. Supported solely through independent patronage and direct subscriber micro-patronage. No algorithms, no ad tracking, no performative urgency.
-                </p>
-
-                {/* Contact info */}
-                <div className="space-y-2 text-sm">
-                    <p className="text-xs font-medium tracking-widest text-[#78716c] uppercase mb-3">
-                        Direct Inquiries & Corroboration
+                {/* Right side - Content */}
+                <div className="pt-1">
+                    <p className="text-[11px] font-medium tracking-[0.15em] text-muted-foreground uppercase mb-5">
+                        Authorial Focus
                     </p>
 
-                    <div className="flex flex-col gap-1.5 text-[#44403c]">
-                        <a href="mailto:aiimirepatricia26@gmail.com">asiimirepatricia26@gmail.com</a>
-                        <a href="tel:+256758969973">+256758969973</a>
-                        <a href="#" className="hover:underline">WhatsApp</a>
-                    </div>
+                    <h2 className="text-3xl md:text-4xl font-serif font-medium leading-snug mb-6">
+                        Writing at the intersection of quiet computing, spatial architecture, and enduring software.
+                    </h2>
 
-                    <div className="flex gap-4 mt-4 text-sm">
-                        <a href="https://www.linkedin.com/in/patricia-asiimire-38b936236/" className="text-[#78716c] hover:text-[#1c1917]">LinkedIn</a>
-                        <a href="#" className="text-[#78716c] hover:text-[#1c1917]">X @motofixug</a>
+                    <p className="text-[#44403c] leading-relaxed mb-6">
+                        Over the last fifteen years, I have drafted distributed fault-tolerant topologies by day and examined the subtle erosion of cognitive silence by night. The MOTOFIX Report Report is an archival venue for unhurried prose—deliberate investigations into digital ergonomics, high-leverage simplicity, and technologies built to outlast market frenzy.
+                    </p>
+
+                    <p className="text-[#44403c] leading-relaxed mb-8">
+                        Every piece published here undergoes iterative revisions, typographic tuning, and empirical review. Supported solely through independent patronage and direct subscriber micro-patronage. No algorithms, no ad tracking, no performative urgency.
+                    </p>
+
+                    {/* Contact info */}
+                    <div className="space-y-2 text-sm">
+                        <p className="text-xs font-medium tracking-widest text-[#78716c] uppercase mb-3">
+                            Direct Inquiries & Corroboration
+                        </p>
+
+                        <div className="flex flex-col gap-1.5 text-[#44403c]">
+                            <a href="mailto:aiimirepatricia26@gmail.com">asiimirepatricia26@gmail.com</a>
+                            <a href="tel:+256758969973">+256758969973</a>
+                            <a href="#" className="hover:underline">WhatsApp</a>
+                        </div>
+
+                        <div className="flex gap-4 mt-4 text-sm">
+                            <a href="https://www.linkedin.com/in/patricia-asiimire-38b936236/" className="text-[#78716c] hover:text-[#1c1917]">LinkedIn</a>
+                            <a href="#" className="text-[#78716c] hover:text-[#1c1917]">X @motofixug</a>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </section>
     );
