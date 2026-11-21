@@ -18,5 +18,5 @@ export default defineSchema({
         priceAmount: v.number(),
         currency: v.string(),
         isFree: v.boolean(),
-    }),
+    }).index("by_status_and_publishedAt", ["status", "publishedAt"]),
 });
