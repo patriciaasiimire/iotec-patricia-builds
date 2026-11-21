@@ -73,7 +73,7 @@ export function RouterProvider({ children }: { children: ReactNode }) {
   const navigate = useCallback((to: string, options?: NavigateOptions) => {
     const [rawPath, rawSearch] = to.split('?')
     const normalizedTarget = normalizePath(rawPath)
-    const fullTarget = normalizePath + (rawSearch ? `?${rawSearch}` : '')
+    const fullTarget = normalizedTarget + (rawSearch ? `?${rawSearch}` : '')
 
     if (window.location.pathname + window.location.search !== fullTarget) {
       if (options?.replace) {
@@ -82,7 +82,7 @@ export function RouterProvider({ children }: { children: ReactNode }) {
         window.history.pushState({}, '', fullTarget)
       }
     }
-    setPathname(normalizePath)
+    setPathname(normalizedTarget)
     setSearch(rawSearch ? `?${rawSearch}` : '')
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [])
