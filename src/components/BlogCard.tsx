@@ -14,13 +14,25 @@ type BlogCardProps = {
 };
 
 function BlogCard({ blog, onRead }: BlogCardProps) {
-    const { coverImageUrl, category, publishedAt, readTimeMinutes, priceAmount, title, description, isFree = false } = blog;
+    const { coverImageUrl, category, publishedAt, readTimeMinutes, currency, priceAmount, title, description, isFree = false } = blog;
+    const dateLabel =
+        publishedAt === undefined
+            ? "Date not set"
+            : new Date(publishedAt).toLocaleDateString();
+    const priceLabel = isFree
+            ? "Free"
+            : `${currency} ${priceAmount.toLocaleString()}`;
+    const readTimeLabel = `${readTimeMinutes} min read`;
 
     return (
         <article className="bg-white rounded-xl overflow-hidden border border-[#e8e6e0] hover:shadow-md transition-shadow">
             {/* image */}
             <div className="aspect-[4/3] overflow-hidden">
-                <img src={"coverImageUrl"} alt={title} className="w-full h-full object-cover" />
+                {coverImageUrl ? (
+                    <img src={coverImageUrl} alt={title} className="w-full h-full object-cover" />
+                ) : (
+                    <div className="w-full h-full bg-[#f6f5f1]" aria-label="Image unavailable" />
+                )}
             </div>
 
             {/* content */}
@@ -29,12 +41,12 @@ function BlogCard({ blog, onRead }: BlogCardProps) {
                     <span className="text-xs font-medium text-[#78716c] uppercase tracking-wide">{category}</span>
                     <span className={`text-xs font-medium px-2 py-0.5 rounded ${
                         isFree? "bg-green-50 text-green-700" : "bg-[#f6f5f1] text-[#44403c]"
-                    }` } >{priceAmount}</span>
+                    }` } >{priceLabel}</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs text-[#78716c] mb-3">
-                    <span>{publishedAt}</span>
+                    <span>{dateLabel}</span>
                     <span>.</span>
-                    <span>{readTimeMinutes}</span>
+                    <span>{readTimeLabel}</span>
                 </div>
 
                 <h3 className="text-lg font-medium leading snug mb-2">{title}</h3>

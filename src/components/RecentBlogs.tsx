@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import BlogCard from "./BlogCard";
+import BlogCard, {type BlogCardData} from "./BlogCard";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useNavigate } from "@/navigation/RouterContext";
@@ -48,8 +48,8 @@ function RecentBlogs() {
         setCurrentPage(1); // a new filter always starts on page 1
     };
 
-    const handleRead = (blog: Blog) => {
-        navigate(`${PATHS.BLOG_DETAILS}?id=${blog.id}`);
+    const handleRead = (blog: BlogCardData) => {
+        navigate(`${PATHS.BLOG_DETAILS}?id=${blog._id}`);
     };
 
     return (
@@ -84,7 +84,7 @@ function RecentBlogs() {
             ) : pageBlogs.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {pageBlogs.map((blog) => (
-                        <BlogCard key={blog.id} blog={blog} onRead={handleRead}/>
+                        <BlogCard key={blog._id} blog={blog} onRead={handleRead}/>
                     ))}
                 </div>
             ) : (
