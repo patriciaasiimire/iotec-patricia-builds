@@ -67,7 +67,7 @@ export const listPublished = query({
     },
 });
 
-// A few important ideas in that function:
+// A few important ideas in that function above:
 
 // args: {} means the query doesn’t need any input.
 // returns describes the result’s shape, so Convex can validate it.
