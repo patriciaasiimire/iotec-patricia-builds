@@ -18,5 +18,10 @@ export default defineSchema({
         priceAmount: v.number(),
         currency: v.string(),
         isFree: v.boolean(),
-    }).index("by_status_and_publishedAt", ["status", "publishedAt"]),
+    }).index("by_status_and_publishedAt", ["status", "publishedAt"]), users: defineTable({}),
 });
+// Why an empty users table?
+// Convex Auth needs a place in your app’s data model for each signed-in user.
+// The passkey credentials are handled by the Auth components;
+// don’t add passkey secrets or passwords to this table.
+// Later, we’ll decide how to mark your account as an admin.
