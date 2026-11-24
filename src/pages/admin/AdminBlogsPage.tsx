@@ -1,9 +1,28 @@
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Authenticated, AuthLoading, Unauthenticated, useQuery } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 
 export function AdminBlogsPage() {
+  const currentUser = useQuery(api.users.currentUser, {});
+  // This asks Convex for the current visitor’s own admin status.
+  // It doesn’t let the browser choose whose status to check.
+
   return (
-    <div className="flex flex-1 flex-col">
+    <>
+    <AuthLoading>
+      <p>Checking sign-in...</p>
+    </AuthLoading>
+
+    <Unauthenticated>
+      <p>You need to sign in, We'll add the passkey form next.</p>
+    </Unauthenticated>
+
+    <Authenticated>
+      {currentUser === undefined ? (
+        <p>Checking admin access...</p>
+      ) : currentUser?.isAdmin ? (
+        <div className="flex flex-1 flex-col">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="font-serif text-3xl font-normal tracking-tight text-foreground">
           Articles &amp; Essays
@@ -23,5 +42,15 @@ export function AdminBlogsPage() {
         </p>
       </div>
     </div>
+      ) : (
+        <p>You're signed in, but this account isn’t an admin.</p>
+      )}
+    </Authenticated>
+    </>
+    // Why these checks?
+    // Convex first restores the sign-in session.
+    // Then currentUser checks the user record.
+    // Only isAdmin: true gets the admin page;
+    // newly registered users start as non-admin.
   )
 }
