@@ -10,7 +10,7 @@ export const createUser = internalMutation({
     },
     returns: v.id("users"),
     handler: async (ctx) => {
-        return await ctx.db.insert("users", {});
+        return await ctx.db.insert("users", { isAdmin: false });
     },
 });
 

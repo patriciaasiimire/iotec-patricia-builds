@@ -18,7 +18,10 @@ export default defineSchema({
         priceAmount: v.number(),
         currency: v.string(),
         isFree: v.boolean(),
-    }).index("by_status_and_publishedAt", ["status", "publishedAt"]), users: defineTable({}),
+    }).index("by_status_and_publishedAt", ["status", "publishedAt"]), users: defineTable({
+        isAdmin: v.optional(v.boolean()),
+        // v.optional means older user records can be missing this field. We’ll only treat isAdmin: true as admin.
+    }),
 });
 // Why an empty users table?
 // Convex Auth needs a place in your app’s data model for each signed-in user.
