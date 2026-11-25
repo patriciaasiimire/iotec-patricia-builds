@@ -3,8 +3,15 @@ import { Button } from '@/components/ui/button'
 import { Authenticated, AuthLoading, Unauthenticated, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { PasskeySignInForm } from '@/components/PasskeySignInForm';
+import { useState } from 'react';
 
 export function AdminBlogsPage() {
+  // isFormOpen remembers whether the form is visible.
+  // title remembers what’s typed in its input.
+  // useState(false) starts closed; useState("") starts with an empty title.
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [title, setTitle] = useState("");
+
   const currentUser = useQuery(api.users.currentUser, {});
   // This asks Convex for the current visitor’s own admin status.
   // It doesn’t let the browser choose whose status to check.
@@ -32,6 +39,7 @@ Convex changes the auth state and this form disappears. */}
           Articles &amp; Essays
         </h1>
         <Button
+          onClick={() => setIsFormOpen}
           type="button"
           className="self-start px-4 py-2 text-xs font-medium shadow-2xs sm:self-auto"
         >
@@ -39,6 +47,18 @@ Convex changes the auth state and this form disappears. */}
           <span>Create New Blog</span>
         </Button>
       </div>
+
+        {isFormOpen && (
+          <div className="mt-8 rounded-xl border border-[#e8e6e0] bg-white p-6">
+            <label htmlFor="blog-title" className="mb-2 block text-sm font-medium">
+              Blog title
+            </label>
+            <input id='blog-title' value={title} onChange={(event) => setTitle(event.target.value)} className="w-full rounded-lg border border-[#e8e6e0] px-3 py-2" placeholder='Enter a title' />
+            <p className="mt-2 text-sm text-muted-foreground">
+              Title entered: {title || "Nothing yet"}
+            </p>
+          </div>
+        )}
 
       <div className="my-auto py-16">
         <p className="text-sm text-muted-foreground">

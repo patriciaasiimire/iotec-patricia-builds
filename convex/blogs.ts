@@ -181,3 +181,29 @@ export const createBlog = mutation({
 
     },
 });
+
+// blog schema requires coverImageId,
+// so the form needs to upload the image to Convex Storage
+// and get its ID before it can call createBlog
+export const generateBlogImageUploadUrl = mutation({
+    args: {},
+    returns: v.string(),
+    handler: async (ctx) => {
+        const userId = await getAuthUserId(ctx);
+
+        if (userId === null)
+            throw new Error("Not signed in");
+
+        const user = await ctx.db.get(userId);
+
+        if (!user || user.isAdmin !== true)
+            throw new Error("Not authorized");
+
+        return await ctx.storage.generateUploadUrl();
+    },
+// args: {} says this function needs no input; it doesn’t need the image file itself.
+// It repeats the sign-in and admin checks. Every public backend function that changes or enables changes must protect itself. Hiding the upload button isn’t security.
+// ctx.storage.generateUploadUrl() asks Convex for a temporary URL that the browser can upload a file to.
+// returns: v.string() says the function returns that URL as text.
+// The browser will use the returned URL to upload the image; Convex responds with a storage ID. Then the form sends that ID to createBlog as coverImageId.
+});
