@@ -39,7 +39,7 @@ Convex changes the auth state and this form disappears. */}
           Articles &amp; Essays
         </h1>
         <Button
-          onClick={() => setIsFormOpen}
+          onClick={() => setIsFormOpen(true)}
           type="button"
           className="self-start px-4 py-2 text-xs font-medium shadow-2xs sm:self-auto"
         >
