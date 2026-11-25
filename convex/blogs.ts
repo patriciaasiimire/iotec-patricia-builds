@@ -1,4 +1,9 @@
-import {query} from "./_generated/server";
+import {mutation, query} from "./_generated/server";
+import { getAuthUserId } from "@convex-dev/auth/server";
+// query reads data,
+// mutation writes data,
+// getAuthUserId identifies the signed-in browser session.
+
 import { v } from "convex/values";
 
 export const listPublished = query({
@@ -115,5 +120,64 @@ export const getFreePublishedById = query({
             currency: blog.currency,
             isFree: true as const,
         };
+    },
+});
+
+export const createBlog = mutation({
+    args:{
+        // values from the caller
+        title: v.string(),
+        description: v.string(),
+        content: v.array(v.string()),
+        category: v.string(),
+        status: v.union(v.literal("draft"), v.literal("published")),
+        publishedAt: v.optional(v.number()),
+        coverImageId: v.id("_storage"),
+        readTimeMinutes: v.number(),
+        priceAmount: v.number(),
+        currency: v.string(),
+        isFree: v.boolean(),
+    },
+    returns:v.id("blogs"),
+    handler: async (ctx, args) => {
+        // security and write logic
+        const userId = await getAuthUserId(ctx);
+
+        // first get the signed-in user ID
+        if (userId === null)
+            throw new Error("Not signed in");
+
+        // load that user:
+        const user = await ctx.db.get(userId);
+
+        if (!user || user.isAdmin !== true)
+            throw new Error("Not authorized");
+        // This security check happens in Convex itself,
+        // so hiding the form in React cannot be used as the only protection.
+
+        // one useful rule: a published blog should always have publishedAt
+        if (args.status === "published" && args.publishedAt === undefined)
+            throw new Error("Published blogs need a publication date");
+
+        // for free blogs, enforce
+        if (args.isFree && args.priceAmount !== 0)
+            throw new Error("Free blogs must have a zero price");
+
+        // insert the blog after the checks
+        return await ctx.db.insert("blogs", {
+            title: args.title,
+            description: args.description,
+            content: args.content,
+            category: args.category,
+            status: args.status,
+            publishedAt: args.publishedAt,
+            coverImageId: args.coverImageId,
+            readTimeMinutes: args.readTimeMinutes,
+            priceAmount: args.priceAmount,
+            currency: args.currency,
+            isFree: args.isFree,
+        });
+        // The result is the new blog’s Convex _id.
+
     },
 });
