@@ -2,6 +2,7 @@ import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Authenticated, AuthLoading, Unauthenticated, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import { PasskeySignInForm } from '@/components/PasskeySignInForm';
 
 export function AdminBlogsPage() {
   const currentUser = useQuery(api.users.currentUser, {});
@@ -14,8 +15,11 @@ export function AdminBlogsPage() {
       <p>Checking sign-in...</p>
     </AuthLoading>
 
+{/* Unauthenticated means Convex has confirmed there’s no signed-in session,
+so that’s where the sign-in form belongs. When sign-in succeeds,
+Convex changes the auth state and this form disappears. */}
     <Unauthenticated>
-      <p>You need to sign in, We'll add the passkey form next.</p>
+      <PasskeySignInForm />
     </Unauthenticated>
 
     <Authenticated>
