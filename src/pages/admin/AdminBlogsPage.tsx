@@ -1,9 +1,10 @@
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Authenticated, AuthLoading, Unauthenticated, useQuery } from "convex/react";
+import { Authenticated, AuthLoading, Unauthenticated, useMutation, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { PasskeySignInForm } from '@/components/PasskeySignInForm';
 import { useState } from 'react';
+import type { Id } from '../../../convex/_generated/dataModel';
 
 export function AdminBlogsPage() {
   // isFormOpen remembers whether the form is visible.
@@ -31,10 +32,77 @@ export function AdminBlogsPage() {
   // File | null means “either a selected browser file, or nothing selected.”
   // This is different from the Convex Storage ID—we’ll get that only after uploading.
 
+  const [imageStorageId, setImageStorageId] = useState<Id<"_storage"> | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  // imageFile is the file selected on your computer.
+  // imageStorageId will be the ID Convex gives us after it receives that file.
+
+  // get the upload function from Convex
+  const generateUploadUrl = useMutation(api.blogs.generateBlogImageUploadUrl);
+
+  // useMutation gives your page a function it can call.
+  // Calling this one asks Convex for a temporary upload URL;
+  // the server mutation checks that you’re an admin.
+
 
   const currentUser = useQuery(api.users.currentUser, {});
   // This asks Convex for the current visitor’s own admin status.
   // It doesn’t let the browser choose whose status to check.
+
+  // upload handler
+  const handleUploadImage = async () => {
+    setUploadError(null);
+
+    if (!imageFile){
+      setUploadError("Choose an image first.")
+    return;
+    }
+      
+    if (!imageFile.type.startsWith("image/")) {
+      setUploadError("Choose an image file.");
+    return;
+    }
+      
+    setIsUploading(true);
+
+    try {
+      const uploadUrl = await generateUploadUrl({});
+      const response = await fetch(uploadUrl, {
+        method: "POST",
+        headers: {"Content-type": imageFile.type},
+        body: imageFile,
+      });
+
+      if (!response.ok) {
+        throw new Error("Convex could not upload the image.");
+      }
+
+      const result: unknown = await response.json();
+
+      if (
+        typeof result !== "object" ||
+        result === null ||
+        !("storageId" in result) ||
+        typeof result.storageId !== "string"
+      ) {
+        throw new Error("The upload response didn't contain a storage ID.")
+      }
+
+      setImageStorageId(result.storageId as Id<"_storage">);
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      setUploadError(
+        error instanceof Error ? error.message : "Image upload failed.",
+      );
+    } finally {
+      setIsUploading(false);
+    }
+    // The sequence is:
+    // ask Convex for a temporary URL → send the file to that URL → receive a storageId → remember it in React state.
+    // The browser’s file picker’s accept="image/*" is only a hint,
+    // so the handler also checks the selected file’s type.
+  };
 
   return (
     <>
@@ -154,6 +222,24 @@ Convex changes the auth state and this form disappears. */}
                   Selected image: {imageFile.name}
                 </p>
               )}
+
+              {/* Upload button and feedback */}
+              <button type='button' onClick={handleUploadImage} disabled={!imageFile || isUploading} className='mt-4 self-start'>
+                {isUploading ? "Uploading image..." : "Upload image"}
+              </button>
+
+              {uploadError !== null && <p role='alert'>{uploadError}</p> }
+
+              {imageStorageId !== null && (
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Image uploaded. Convex storage ID: {imageStorageId}
+                </p>
+              )}
+              {/* 
+              disabled prevents upload when there’s no file selected or while an upload is already running.
+              The displayed ID confirms the result;
+              later, that ID becomes coverImageId in the blog document.
+               */}
 
               {/* Article content */}
               <label htmlFor="blog-content" className="mb-2 mt-6 block text-sm font-medium">
