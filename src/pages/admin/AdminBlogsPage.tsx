@@ -11,6 +11,8 @@ export function AdminBlogsPage() {
   // useState(false) starts closed; useState("") starts with an empty title.
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [contentText, setContentText] = useState("");
 
   const currentUser = useQuery(api.users.currentUser, {});
   // This asks Convex for the current visitor’s own admin status.
@@ -50,6 +52,7 @@ Convex changes the auth state and this form disappears. */}
 
         {isFormOpen && (
           <div className="mt-8 rounded-xl border border-[#e8e6e0] bg-white p-6">
+            {/* Title input */}
             <label htmlFor="blog-title" className="mb-2 block text-sm font-medium">
               Blog title
             </label>
@@ -57,6 +60,27 @@ Convex changes the auth state and this form disappears. */}
             <p className="mt-2 text-sm text-muted-foreground">
               Title entered: {title || "Nothing yet"}
             </p>
+
+            {/* Description input */}
+            <label htmlFor="blog-description" className="mb-2 mt-6 block text-sm font-medium">
+              Short Description
+            </label>
+            <textarea id="blog-description" value={description} onChange={(event) => setDescription(event.target.value)} className='w-full rounded-lg border border-[#e8e6e0] px-3 py-2' rows={3} placeholder='A short summary for the blog card'/>
+
+              {/* Article content */}
+              <label htmlFor="blog-content" className="mb-2 mt-6 block text-sm font-medium">
+                Article content
+              </label>
+              <textarea id="blog-content" value={contentText} onChange={(event) => setContentText(event.target.value)} className="w-full rounded-lg border border-" rows={10} placeholder='Write the article here. Leave a blank line between paragraphs.'/>
+                {/* 
+                A <textarea> is like a bigger input for multiple lines.
+                value displays what React has remembered;
+                onChange updates that memory whenever you type.
+
+                We’re keeping the article as one text string for now.
+                Later, when we send it to Convex,
+                we’ll split it into paragraphs because the schema expects content to be an array of strings.
+                 */}
           </div>
         )}
 
