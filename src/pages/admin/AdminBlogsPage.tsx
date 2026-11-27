@@ -14,6 +14,12 @@ export function AdminBlogsPage() {
   const [description, setDescription] = useState("");
   const [contentText, setContentText] = useState("");
   const [category, setCategory] = useState("");
+  const [status, setStatus] = useState<"draft" | "published">("draft");
+  const [isFree, setIsFree] = useState(true);
+  // The text between <...> is a TypeScript union type:
+  // status may only be "draft" or "published". It starts as "draft".
+  // The free/paid setting is a boolean, so it starts as true.
+
 
   const currentUser = useQuery(api.users.currentUser, {});
   // This asks Convex for the current visitor’s own admin status.
@@ -73,6 +79,26 @@ Convex changes the auth state and this form disappears. */}
                 Category
               </label>
               <input id='blog-category' value={category} onChange={(event) => setCategory(event.target.value)} className="w-full rounded-lg border border-[#e8e6e0] px-3 py-2" placeholder='For example, Friendship' />
+
+              {/* controls to the form */}
+              <label htmlFor="blog-status" className="mb-2 mt-6 block text-sm font-medium">
+                Status
+              </label>
+              <select id="blog-status" value={status} onChange={(event) => {
+                const nextStatus = event.target.value;
+
+                if (nextStatus === "draft" || nextStatus === "published")
+                  setStatus(nextStatus);
+              }}
+              className="w-full rounded-lg border border-[#e8e6e0] px-3 py-2">
+                <option value="draft">Draft</option>
+                <option value="published">Published</option>
+              </select>
+
+              <label className="mt-6 flex items-center gap-2 text-sm font-medium">
+                <input type="checkbox" checked={isFree} onChange={(event) => setIsFree(event.target.checked)} />
+                This blog is free
+              </label>
 
               {/* Article content */}
               <label htmlFor="blog-content" className="mb-2 mt-6 block text-sm font-medium">
