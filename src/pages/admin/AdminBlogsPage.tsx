@@ -20,6 +20,13 @@ export function AdminBlogsPage() {
   // status may only be "draft" or "published". It starts as "draft".
   // The free/paid setting is a boolean, so it starts as true.
 
+  const [readTimeText, setReadTimeText] = useState("1");
+  const [priceText, setPriceText] = useState("0");
+  const [currency, setCurrency] = useState("UGX");
+  // We’re storing the number inputs as text for now.
+  // Even an HTML input with type="number" gives React a text value when you read event.target.value.
+  // When we submit the form, we’ll convert those strings into numbers and check they’re valid.
+
 
   const currentUser = useQuery(api.users.currentUser, {});
   // This asks Convex for the current visitor’s own admin status.
@@ -59,6 +66,7 @@ Convex changes the auth state and this form disappears. */}
 
         {isFormOpen && (
           <div className="mt-8 rounded-xl border border-[#e8e6e0] bg-white p-6">
+            
             {/* Title input */}
             <label htmlFor="blog-title" className="mb-2 block text-sm font-medium">
               Blog title
@@ -99,6 +107,29 @@ Convex changes the auth state and this form disappears. */}
                 <input type="checkbox" checked={isFree} onChange={(event) => setIsFree(event.target.checked)} />
                 This blog is free
               </label>
+
+              {/* reading time and price. */}
+              <label htmlFor="blog-read-time" className="mb-2 mt-6 block text-sm font-medium">
+                Reading time in minutes
+              </label>
+              <input id='blog-read-time' type='number' min='1' step='1' value={readTimeText} onChange={(event) => setReadTimeText(event.target.value)} className="w-full rounded-lg border border-[#e8e6e0] px-3 py-2" />
+
+              {!isFree && (
+                // {!isFree && (...)} means “show the price and currency inputs only when the free checkbox is not checked.”
+                // The database still needs priceAmount for free blogs,
+                // so we’ll send 0 for those when we wire up saving.
+                <>
+                <label htmlFor="blog-price" className="mb-2 mt-6 block text-sm font-medium">
+                  Price amount
+                </label>
+                <input id='blog-price' type='number' min='1' step='1' value={priceText} onChange={(event) => setPriceText(event.target.value)} className="w-full rounded-lg border border- px-3 py-2" />
+
+                <label htmlFor="blog-currency" className="mb-2 mt-6 block text-sm font-medium">
+                  Currency
+                </label>
+                <input id='blog-currency' value={currency} onChange={(event) => setCurrency(event.target.value)} className="w-full rounded-lg border border- px-3 py-2" />
+                </>
+              )}
 
               {/* Article content */}
               <label htmlFor="blog-content" className="mb-2 mt-6 block text-sm font-medium">
