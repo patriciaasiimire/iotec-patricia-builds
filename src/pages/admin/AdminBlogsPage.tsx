@@ -27,6 +27,10 @@ export function AdminBlogsPage() {
   // Even an HTML input with type="number" gives React a text value when you read event.target.value.
   // When we submit the form, we’ll convert those strings into numbers and check they’re valid.
 
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  // File | null means “either a selected browser file, or nothing selected.”
+  // This is different from the Convex Storage ID—we’ll get that only after uploading.
+
 
   const currentUser = useQuery(api.users.currentUser, {});
   // This asks Convex for the current visitor’s own admin status.
@@ -129,6 +133,26 @@ Convex changes the auth state and this form disappears. */}
                 </label>
                 <input id='blog-currency' value={currency} onChange={(event) => setCurrency(event.target.value)} className="w-full rounded-lg border border- px-3 py-2" />
                 </>
+              )}
+
+              {/* Image file picker */}
+              {/* type="file" opens the system’s file picker.
+              accept="image/*" asks it to show image files.
+              The browser gives us a list of selected files; [0] means “take the first one,”
+              and ?? null means “use null if nothing was selected.” */}
+              <label htmlFor="blog-cover-image" className="mb-2 mt-6 block text-sm font-medium">
+                Cover image
+              </label>
+              <input id='blog-cover-image' type="file" accept='image/*' className='cursor-pointer text-sm text-[#57534e] file:mr-4 file:cursor-pointer file:rounded-md file:border-0 file:bg-[#1c1917] file:px-4 file:py-2 file:font-medium file:text-white hover:file:bg-[#292524]'
+              onChange={(event) => {
+                const selectedFile = event.currentTarget.files?.[0] ?? null;
+                setImageFile(selectedFile);
+              }}
+              />
+              {imageFile && (
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Selected image: {imageFile.name}
+                </p>
               )}
 
               {/* Article content */}
