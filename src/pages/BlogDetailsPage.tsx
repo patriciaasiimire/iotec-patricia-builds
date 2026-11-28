@@ -18,7 +18,7 @@ export function BlogDetailsPage() {
 
   // Ask convex for that blog
   const blog = useQuery(
-    api.blogs.getFreePublishedById,
+    api.blogs.getPublishedById,
     blogId ? { id: blogId as Id<'blogs'> } : 'skip',
   )
   // The 'skip' tells Convex “don’t run this query until we have an ID.”
@@ -65,11 +65,19 @@ export function BlogDetailsPage() {
             </p>
             <p className="mt-6 text-muted-foreground">{blog.description}</p>
             <div className="mt-8 space-y-5">
-              {blog.content.map((paragraph, index) => (
-                <p key={index} className="leading-relaxed text-foreground">
-                  {paragraph}
-                </p>
-              ))}
+              {blog.isFree ? (
+                blog.content?.map((paragraph, index) => (
+                  <p key={index} className="leading-relaxed text-foreground">
+                    {paragraph}
+                  </p>
+                ))
+              ) : (
+                <section className="rounded-xl border p-6">
+                  <h2>Unlock this article</h2>
+                  <p>{blog.currency} {blog.priceAmount}</p>
+                </section>
+
+              )}
             </div>
           </article>
         )}

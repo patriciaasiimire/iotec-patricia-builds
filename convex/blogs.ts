@@ -118,7 +118,7 @@ export const getPublishedById = query({
             readTimeMinutes: blog.readTimeMinutes,
             priceAmount: blog.priceAmount,
             currency: blog.currency,
-            isFree: true as const,
+            isFree: blog.isFree,
         };
     },
 });
