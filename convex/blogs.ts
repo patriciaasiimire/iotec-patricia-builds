@@ -80,7 +80,7 @@ export const listPublished = query({
 // coverImageUrl is generated from the stored image ID. It can be null if the image is unavailable.
 // The query deliberately leaves out content. Since you plan to add a paywall, don’t send paid article text to every visitor in the public list response.
 
-export const getFreePublishedById = query({
+export const getPublishedById = query({
     args: {
         id: v.id("blogs"),
     },
@@ -90,20 +90,20 @@ export const getFreePublishedById = query({
             _id: v.id("blogs"),
             title: v.string(),
             description: v.string(),
-            content: v.array(v.string()),
+            content: v.union(v.array(v.string()), v.null()),
             category: v.string(),
             publishedAt: v.optional(v.number()),
             coverImageUrl: v.union(v.string(), v.null()),
             readTimeMinutes: v.number(),
             priceAmount: v.number(),
             currency: v.string(),
-            isFree: v.literal(true),
+            isFree: v.boolean(),
         }),
     ),
     handler: async (ctx, args) => {
         const blog = await ctx.db.get(args.id);
 
-        if (!blog || blog.status !== "published" || !blog.isFree) {
+        if (!blog || blog.status !== "published") {
             return null;
         }
 
@@ -111,7 +111,7 @@ export const getFreePublishedById = query({
             _id: blog._id,
             title: blog.title,
             description: blog.description,
-            content: blog.content,
+            content: blog.isFree ? blog.content : null,
             category: blog.category,
             publishedAt: blog.publishedAt,
             coverImageUrl: await ctx.storage.getUrl(blog.coverImageId),
