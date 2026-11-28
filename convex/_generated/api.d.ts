@@ -10,6 +10,7 @@
 
 import type * as auth from "../auth.js";
 import type * as blogs from "../blogs.js";
+import type * as iotecPay_iotecPayApi from "../iotecPay/iotecPayApi.js";
 import type * as iotecPay_iotecPayToken from "../iotecPay/iotecPayToken.js";
 import type * as users from "../users.js";
 
@@ -22,6 +23,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   blogs: typeof blogs;
+  "iotecPay/iotecPayApi": typeof iotecPay_iotecPayApi;
   "iotecPay/iotecPayToken": typeof iotecPay_iotecPayToken;
   users: typeof users;
 }>;
