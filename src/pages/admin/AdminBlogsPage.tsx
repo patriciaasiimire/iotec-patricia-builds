@@ -7,6 +7,9 @@ import { useState } from 'react';
 import type { Id } from '../../../convex/_generated/dataModel';
 
 export function AdminBlogsPage() {
+
+  // useState declarations:
+
   // isFormOpen remembers whether the form is visible.
   // title remembers what’s typed in its input.
   // useState(false) starts closed; useState("") starts with an empty title.
@@ -38,12 +41,22 @@ export function AdminBlogsPage() {
   // imageFile is the file selected on your computer.
   // imageStorageId will be the ID Convex gives us after it receives that file.
 
+  const [isSaving, setIsSaving] = useState(false);
+  const [createError, setCreateError] = useState<string | null>(null);
+  const [createdBlogId, setCreatedBlogId] = useState<Id<"blogs"> | null>(null);
+  // These remember whether a save is happening, any error, and the ID returned after a successful save.
+
+  // useMutation declarations:
+
   // get the upload function from Convex
   const generateUploadUrl = useMutation(api.blogs.generateBlogImageUploadUrl);
-
   // useMutation gives your page a function it can call.
   // Calling this one asks Convex for a temporary upload URL;
   // the server mutation checks that you’re an admin.
+
+  const saveBlog = useMutation(api.blogs.createBlog);
+  // useMutation gives the component a function for asking Convex to create the blog.
+  // Convex’s generated types will tell TypeScript which fields that function needs.
 
 
   const currentUser = useQuery(api.users.currentUser, {});
@@ -102,6 +115,83 @@ export function AdminBlogsPage() {
     // ask Convex for a temporary URL → send the file to that URL → receive a storageId → remember it in React state.
     // The browser’s file picker’s accept="image/*" is only a hint,
     // so the handler also checks the selected file’s type.
+  };
+
+  // save action: It checks the form values, turns them into the types your Convex mutation expects, and asks Convex to create the blog.
+  const handleCreateBlog = async () => {
+    setCreateError(null);
+    setCreatedBlogId(null);
+
+    if (!title.trim() || !description.trim() || !category.trim()) {
+      setCreateError("Enter a title, description, and category.");
+      return;
+    }
+
+    if (!imageStorageId) {
+      setCreateError("Upload a cover image first.")
+      return;
+    }
+
+    const readTimeMinutes = Number(readTimeText);
+    if (!Number.isInteger(readTimeMinutes) || readTimeMinutes < 1) {
+      setCreateError("Reading time must be a whole number above zero.")
+      return;
+    }
+
+    const priceAmount = isFree ? 0 : Number(priceText);
+    if (!isFree && (!Number.isFinite(priceAmount) || priceAmount <= 0)) {
+      setCreateError("A paid blog needs a price above zero.")
+      return;
+    }
+
+    if (!currency.trim()) {
+      setCreateError("Enter a currency.");
+      return;
+    }
+
+    const content = contentText
+      .split(/\n\s*\n/)
+      .map((paragraph) => paragraph.trim())
+      .filter((paragraph) => paragraph.length > 0);
+
+      if (content.length === 0) {
+        setCreateError("Write at least one paragraph.");
+        return;
+      }
+
+      setIsSaving(true);
+
+      try {
+        const newBlogId = await saveBlog({
+          title: title.trim(),
+          description: description.trim(),
+          content,
+          category: category.trim(),
+          status,
+          ...(status === "published" ? {publishedAt: Date.now()} : {}),
+          coverImageId: imageStorageId,
+          readTimeMinutes,
+          priceAmount,
+          currency: currency.trim(),
+          isFree,
+        });
+
+        setCreatedBlogId(newBlogId);
+      } catch (error) {
+        console.error("Creating blog failed:", error);
+        setCreateError(
+          error instanceof Error ? error.message : "Could not create the blog."
+        );
+      } finally {
+        setIsSaving(false);
+      }
+// The checks make sure the required information is present.
+// Number(...) converts the number fields from input text to numbers.
+// The split(...).map(...).filter(...) turns paragraphs separated by blank lines into the string array your schema expects.
+// Date.now() supplies a publication timestamp only when the status is "published".
+// saveBlog(...) sends the prepared information—including the uploaded image ID—to Convex.
+// try/catch shows an error if saving fails; finally always turns off the saving indicator.
+// This form-side checking helps the author, but it’s not the security boundary. The Convex mutation still needs its own validation because someone could call it without using this form
   };
 
   return (
@@ -204,6 +294,7 @@ Convex changes the auth state and this form disappears. */}
               )}
 
               {/* Image file picker */}
+
               {/* type="file" opens the system’s file picker.
               accept="image/*" asks it to show image files.
               The browser gives us a list of selected files; [0] means “take the first one,”
@@ -215,6 +306,7 @@ Convex changes the auth state and this form disappears. */}
               onChange={(event) => {
                 const selectedFile = event.currentTarget.files?.[0] ?? null;
                 setImageFile(selectedFile);
+                setImageStorageId(null); // This matters if you choose a different image after uploading the first one: the old storage ID must not accidentally be attached to the new blog.
               }}
               />
               {imageFile && (
@@ -255,6 +347,27 @@ Convex changes the auth state and this form disappears. */}
                 Later, when we send it to Convex,
                 we’ll split it into paragraphs because the schema expects content to be an array of strings.
                  */}
+
+                 <Button
+                 type='button'
+                 onClick={handleCreateBlog}
+                 disabled={isSaving || isUploading}
+                 className='mt-6'
+                 >
+                  {isSaving ? "Saving blog..." : "Save blog"}
+                 </Button>
+
+                 {createError !== null && (
+                  <p className="mt-3 text-sm text-red-600">
+                    {createError}
+                  </p>
+                 )}
+
+                 {createdBlogId !== null && (
+                  <p role='status' className="mt-3 text-sm text-green-700">
+                    Blog save. Its ID is {createdBlogId}
+                  </p>
+                 )}
           </div>
         )}
 
