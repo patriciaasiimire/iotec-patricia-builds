@@ -90,6 +90,7 @@ export const getPublishedById = query({
             _id: v.id("blogs"),
             title: v.string(),
             description: v.string(),
+            previewContent: v.string(),
             content: v.union(v.array(v.string()), v.null()),
             category: v.string(),
             publishedAt: v.optional(v.number()),
@@ -111,6 +112,9 @@ export const getPublishedById = query({
             _id: blog._id,
             title: blog.title,
             description: blog.description,
+            previewContent: blog.isFree
+                ? ""
+                : (blog.content[0] ?? "").slice(0, 240),
             content: blog.isFree ? blog.content : null,
             category: blog.category,
             publishedAt: blog.publishedAt,
